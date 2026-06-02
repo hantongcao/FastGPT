@@ -85,7 +85,7 @@ const Info = () => {
             <Box flex={'0 0 330px'}>
               <MyInfo onOpenContact={onOpenContact} />
               <Box mt={6}>
-                <Other onOpenContact={onOpenContact} />
+                <Other />
               </Box>
             </Box>
             {!!standardPlan && (
@@ -98,7 +98,7 @@ const Info = () => {
           <>
             <MyInfo onOpenContact={onOpenContact} />
             {standardPlan && <PlanUsage />}
-            <Other onOpenContact={onOpenContact} />
+            <Other />
           </>
         )}
       </Box>
@@ -720,7 +720,7 @@ const ButtonStyles = {
   userSelect: 'none' as any,
   fontSize: 'sm'
 };
-const Other = ({ onOpenContact }: { onOpenContact: () => void }) => {
+const Other = () => {
   const { feConfigs, setNotSufficientModalType, subPlans } = useSystemStore();
   const { teamPlanStatus } = useUserStore();
   const { t } = useTranslation();
@@ -753,20 +753,6 @@ const Other = ({ onOpenContact }: { onOpenContact: () => void }) => {
   return (
     <Box>
       <Grid gridGap={4}>
-        {feConfigs?.docUrl && (
-          <Link
-            href={getDocPath('/guide/getting-started')}
-            target="_blank"
-            textDecoration={'none !important'}
-            {...ButtonStyles}
-          >
-            <MyIcon name={'common/courseLight'} w={'18px'} color={'myGray.600'} />
-            <Box ml={2} flex={1}>
-              {t('account_info:help_document')}
-            </Box>
-          </Link>
-        )}
-
         {!isPc &&
           feConfigs?.navbarItems
             ?.filter((item) => item.isActive)
@@ -778,14 +764,6 @@ const Other = ({ onOpenContact }: { onOpenContact: () => void }) => {
                 </Box>
               </Flex>
             ))}
-        {feConfigs?.concatMd && (
-          <Flex onClick={onOpenContact} {...ButtonStyles}>
-            <MyIcon name={'modal/concat'} w={'18px'} color={'myGray.600'} />
-            <Box ml={2} flex={1}>
-              {t('account_info:contact_us')}
-            </Box>
-          </Flex>
-        )}
         {feConfigs?.show_workorder && (
           <Flex onClick={onFeedback} {...ButtonStyles}>
             <MyIcon name={'feedback'} w={'18px'} color={'myGray.600'} />

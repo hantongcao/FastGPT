@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import {
   Box,
   Button,
@@ -13,7 +13,6 @@ import {
   Td,
   TableContainer,
   useTheme,
-  Link,
   Input,
   IconButton
 } from '@chakra-ui/react';
@@ -33,7 +32,6 @@ import MyIcon from '@fastgpt/web/components/common/Icon';
 import MyModal from '@fastgpt/web/components/common/MyModal';
 import { useForm } from 'react-hook-form';
 import { useRequest } from '@fastgpt/web/hooks/useRequest';
-import { getDocPath } from '@/web/common/system/doc';
 import MyMenu from '@fastgpt/web/components/common/MyMenu';
 import { useConfirm } from '@fastgpt/web/hooks/useConfirm';
 import FormLabel from '@fastgpt/web/components/common/MyBox/FormLabel';
@@ -53,9 +51,12 @@ const ApiKeyTable = ({ tips, appId }: { tips: string; appId?: string }) => {
   const theme = useTheme();
   const { copyData } = useCopyData();
   const { feConfigs } = useSystemStore();
-  const [baseUrl, setBaseUrl] = useState('https://fastgpt.io/api');
   const [editData, setEditData] = useState<EditProps>();
   const [apiKey, setApiKey] = useState('');
+  const baseUrl = useMemo(
+    () => feConfigs?.customApiDomain || `${location.origin}/api`,
+    [feConfigs?.customApiDomain]
+  );
 
   const { ConfirmModal, openConfirm } = useConfirm({
     type: 'delete',
@@ -77,10 +78,6 @@ const ApiKeyTable = ({ tips, appId }: { tips: string; appId?: string }) => {
     refreshDeps: [appId]
   });
 
-  useEffect(() => {
-    setBaseUrl(feConfigs?.customApiDomain || `${location.origin}/api`);
-  }, [feConfigs?.customApiDomain]);
-
   return (
     <MyBox
       isLoading={isGetting}
@@ -91,22 +88,9 @@ const ApiKeyTable = ({ tips, appId }: { tips: string; appId?: string }) => {
     >
       <Box display={['block', 'flex']} alignItems={'center'}>
         <Box flex={1}>
-          <Flex alignItems={'flex-end'}>
-            <Box color={'myGray.900'} fontSize={'lg'}>
-              {t('common:support.openapi.Api manager')}
-            </Box>
-            {feConfigs?.docUrl && (
-              <Link
-                href={feConfigs.openAPIDocUrl || getDocPath('/openapi/intro')}
-                target={'_blank'}
-                ml={1}
-                color={'primary.500'}
-                fontSize={'sm'}
-              >
-                {t('common:read_doc')}
-              </Link>
-            )}
-          </Flex>
+          <Box color={'myGray.900'} fontSize={'lg'}>
+            {t('common:support.openapi.Api manager')}
+          </Box>
           <Box fontSize={'mini'} color={'myGray.600'}>
             {tips}
           </Box>

@@ -4,7 +4,6 @@ import { LoginPageTypeEnum } from '@/web/support/user/login/constants';
 import { useSystemStore } from '@/web/common/system/useSystemStore';
 import { useChatStore } from '@/web/core/chat/context/useChatStore';
 import Script from 'next/script';
-import { useTranslation } from 'next-i18next';
 import ChineseRedirectModal from './components/ChineseRedirectModal';
 import CookieConsentModal from './components/CookieConsentModal';
 import LoginFormPanel from './components/LoginFormPanel';
@@ -22,7 +21,6 @@ export const LoginContainer = ({
   children?: React.ReactNode;
   onSuccess: LoginSuccessHandler;
 }) => {
-  const { t } = useTranslation();
   const { feConfigs } = useSystemStore();
   const { resetChatCache } = useChatStore();
   const { isPc } = useSystem();
@@ -79,24 +77,6 @@ export const LoginContainer = ({
 
         {/* custom content */}
         {children}
-
-        {/* help link for login */}
-        {pageType === LoginPageTypeEnum.passwordLogin && loginGuideDocUrl && (
-          <Box
-            mt={[8, 8]}
-            color={'primary.700'}
-            fontSize={'mini'}
-            fontWeight={'medium'}
-            lineHeight={'16px'}
-            cursor={'pointer'}
-            textAlign={'center'}
-            onClick={() => {
-              window.open(loginGuideDocUrl, '_blank', 'noopener,noreferrer');
-            }}
-          >
-            {t('common:support.user.login.can_not_login')}
-          </Box>
-        )}
       </Flex>
 
       <CookieConsentModal />

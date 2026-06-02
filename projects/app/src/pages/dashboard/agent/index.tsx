@@ -31,7 +31,6 @@ import SearchInput from '@fastgpt/web/components/common/Input/SearchInput';
 import { useUserStore } from '@/web/support/user/useUserStore';
 import MyIcon from '@fastgpt/web/components/common/Icon';
 import { ReadRoleVal } from '@fastgpt/global/support/permission/constant';
-import TemplateCreatePanel from '@/pageComponents/dashboard/agent/TemplateCreatePanel';
 
 const EditFolderModal = dynamic(
   () => import('@fastgpt/web/components/common/MyModal/EditFolderModal')
@@ -108,8 +107,6 @@ const MyApps = ({ MenuIcon }: { MenuIcon: JSX.Element }) => {
           overflowY={'auto'}
           overflowX={'hidden'}
         >
-          {/* Only shown on pc root page */}
-          {!folderDetail && isPc && hasCreatePer && <TemplateCreatePanel type={appType} />}
           <Flex alignItems={'center'}>
             {!isPc ? (
               MenuIcon
